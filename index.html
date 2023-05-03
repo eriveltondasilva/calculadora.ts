@@ -1,90 +1,123 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>calculadora.ts</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 
     <!-- bootstrap_5.3.0 -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
-      crossorigin="anonymous"
-    />
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-      crossorigin="anonymous"
-    ></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
 
     <!-- fontawesome_6.4.0 -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- author -->
     <link rel="stylesheet" href="dist/css/main.css" />
     <script src="dist/app.js" defer></script>
-  </head>
+</head>
 
-  <body id="body" class="bg-primary">
-    <main class="background bg-light m-5 px-5 py-4 rounded-5">
-      <section class="screen bg-black mb-2 p-5 rounded-3">
-        <div class="screen__operation"></div>
+<body id="body" class="">
 
-        <div class="screen__result"></div>
-      </section>
+    <main class="background bg-light">
 
-      <section class="keybord">
-        <div class="key grid gap-2">
-          <button type="button" class="key__number btn btn-secondary" value="7">
-            <i class="fa-solid fa-7"></i>
-          </button>
+        <section class="screen">
+            <div class="screen__operation"></div>
 
-          <button type="button" class="key__number btn btn-secondary" value="8">
-            <i class="fa-solid fa-8"></i>
-          </button>
+            <div class="screen__result"></div>
 
-          <button type="button" class="key__number btn btn-secondary" value="9">
-            <i class="fa-solid fa-9"></i>
-          </button>
+        </section>
 
-          <button type="button" class="key__number btn btn-secondary" value="4">
-            <i class="fa-solid fa-4"></i>
-          </button>
+        <section class="keyboard">
 
-          <button type="button" class="key__number btn btn-secondary" value="5">
-            <i class="fa-solid fa-5"></i>
-          </button>
+            <!-- Os botões das operações -->
+            <button type="button" class="key key__operator">
+                <i class="fa-solid fa-c"></i>
+            </button>
 
-          <button type="button" class="key__number btn btn-secondary" value="6">
-            <i class="fa-solid fa-6"></i>
-          </button>
+            <button type="button" class="key key__operator">
+                <i class="fa-solid fa-delete-left"></i>
+            </button>
 
-          <button type="button" class="key__number btn btn-secondary" value="1">
-            <i class="fa-solid fa-1"></i>
-          </button>
+            <button type="button" class="key key__operator">
+                <i class="fa-solid fa-divide"></i>
+            </button>
 
-          <button type="button" class="key__number btn btn-secondary" value="2">
-            <i class="fa-solid fa-2"></i>
-          </button>
+            <button type="button" class="key key__operator">
+                <i class="fa-solid fa-multiply"></i>
+            </button>
 
-          <button type="button" class="key__number btn btn-secondary" value="3">
-            <i class="fa-solid fa-3"></i>
-          </button>
+            <button type="button" class="key key__operator key__minus">
+                <i class="fa-solid fa-minus"></i>
+            </button>
 
-          <button type="button" class="key__number btn btn-secondary" value="0">
-            <i class="fa-solid fa-0"></i>
-          </button>
-        </div>
-      </section>
+            <button type="button" class="key key__operator key__plus">
+                <i class="fa-solid fa-plus"></i>
+            </button>
+
+            <button type="button" class="key key__operator key__equals">
+                <i class="fa-solid fa-equals"></i>
+            </button>
+
+
+            <!-- Os botões dos números -->
+            <button type="button" class="key key__number" value="7">
+                <i class="fa-solid fa-7"></i>
+            </button>
+
+            <button type="button" class="key key__number" value="8">
+                <i class="fa-solid fa-8"></i>
+            </button>
+
+            <button type="button" class="key key__number" value="9">
+                <i class="fa-solid fa-9"></i>
+            </button>
+
+            <button type="button" class="key key__number" value="4">
+                <i class="fa-solid fa-4"></i>
+            </button>
+
+            <button type="button" class="key key__number" value="5">
+                <i class="fa-solid fa-5"></i>
+            </button>
+
+            <button type="button" class="key key__number" value="6">
+                <i class="fa-solid fa-6"></i>
+            </button>
+
+            <button type="button" class="key key__number" value="1">
+                <i class="fa-solid fa-1"></i>
+            </button>
+
+            <button type="button" class="key key__number" value="2">
+                <i class="fa-solid fa-2"></i>
+            </button>
+
+            <button type="button" class="key key__number" value="3">
+                <i class="fa-solid fa-3"></i>
+            </button>
+
+            <button type="button" class="key key__number key__zero" value="0">
+                <i class="fa-solid fa-0"></i>
+            </button>
+
+            <button type="button" class="key key__number">
+                <i class="fa-solid fa-circle i-circle"></i>
+            </button>
+
+        </section>
+
     </main>
-  </body>
+
+</body>
+
 </html>
