@@ -1,15 +1,22 @@
 @charset "utf-8";
 
-// #variáveis
+// ---------------
+// # Variáveis
+// ---------------
 
 // color
 $primary: #2563eb;
 $primary-variant: #3730a3;
 $secondary: gray;
 
-// #mixin
+// ---------------
+// # Mixin
+// ---------------
 
-// #base
+// ---------------
+// # Base
+// ---------------
+
 html {
     box-sizing: border-box;
     font-size: 16px;
@@ -21,13 +28,15 @@ html {
     box-sizing: inherit;
 }
 
-// #layout
+// ---------------
+// # Layout
+// ---------------
+
 #body {
     display: grid;
     height: 100vh;
     place-items: center;
     width: 100%;
-    background-color: #1e40af;
 }
 
 .keyboard {
@@ -58,16 +67,48 @@ html {
     }
 }
 
-// #componentes
+// ---------------
+// # Componentes
+// ---------------
 
-.key {
-    border-radius: 4px;
-    border-style: none;
-    color: white;
-    font-size: 1.5rem;
+.screen {
+    padding: 34px 6px;
+    margin-bottom: 12px;
+    border-radius: 8px;
 }
 
 .key {
+    padding: 4px 10px;
+    border-radius: 8px;
+    border-style: none;
+    font-size: 2rem;
+}
+
+.background {
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.i-circle {
+    font-size: 0.25em;
+}
+
+// ---------------
+// # Tema default
+// ---------------
+
+#body {
+    background-color: rgb(2, 0, 36);
+    background: linear-gradient(45deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+}
+
+.screen {
+    background-color: gray;
+}
+
+.key {
+    color: white;
+
     &__number {
         background-color: $secondary;
     }
@@ -77,13 +118,4 @@ html {
     &__equals {
         background-color: $primary-variant;
     }
-}
-
-.background {
-    border-radius: 8px;
-    padding: 1.5rem;
-}
-
-.i-circle {
-    font-size: 0.3rem;
 }
