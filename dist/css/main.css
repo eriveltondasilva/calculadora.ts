@@ -1,6 +1,5 @@
 html {
   box-sizing: border-box;
-  font-size: 16px;
 }
 
 *,
@@ -9,11 +8,43 @@ html {
   box-sizing: inherit;
 }
 
+:root {
+  font-size: 16px;
+}
+
+.text-title {
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.text-screen {
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+
+.key {
+  font-size: 1.5rem;
+}
+
+.i-circle {
+  font-size: 0.25em;
+}
+
 #body {
   display: grid;
-  height: 100vh;
   place-items: center;
+  height: 100vh;
   width: 100%;
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: end;
 }
 
 .keyboard {
@@ -38,46 +69,73 @@ html {
   grid-column: span 2;
 }
 
+.background {
+  border-radius: 28px;
+  padding: 0 32px;
+  padding-bottom: 28px;
+}
+
 .screen {
-  padding: 34px 6px;
-  margin-bottom: 12px;
+  padding: 0 12px;
+  height: 80px;
+  margin-bottom: 16px;
   border-radius: 8px;
+}
+
+.text-title {
+  margin: 12px 0;
 }
 
 .key {
-  padding: 4px 10px;
+  padding: 4px 14px;
   border-radius: 8px;
   border-style: none;
-  font-size: 2rem;
-}
-
-.background {
-  border-radius: 16px;
-  padding: 24px;
-}
-
-.i-circle {
-  font-size: 0.25em;
 }
 
 #body {
-  background-color: rgb(2, 0, 36);
+  background-color: #e2e8f0;
+}
+
+.background {
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
   background: linear-gradient(45deg, rgb(2, 0, 36) 0%, rgb(9, 9, 121) 35%, rgb(0, 212, 255) 100%);
 }
 
 .screen {
-  background-color: gray;
+  box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.4);
+  background-color: #fff;
 }
 
 .key {
-  color: white;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+  color: #fff;
 }
 .key__number {
-  background-color: gray;
+  background-color: #71717a;
 }
 .key__operator {
   background-color: #2563eb;
 }
 .key__equals {
-  background-color: #3730a3;
+  background-color: #2dd4bf;
+}
+
+.key__number:hover {
+  background-color: #5a5a62;
+}
+.key__operator:hover {
+  background-color: #1e4fbc;
+}
+.key__equals:hover {
+  background-color: #24aa99;
+}
+
+.key__number:active {
+  box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.4);
+}
+.key__operator:active {
+  box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.4);
+}
+.key__equals:active {
+  box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.4);
 }

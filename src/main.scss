@@ -6,12 +6,27 @@
 
 // color
 $primary: #2563eb;
-$primary-variant: #3730a3;
-$secondary: gray;
+$primary-variant: #2dd4bf;
+$secondary: #71717a;
+$bg-screen: #fff;
+$bg-body: #e2e8f0;
+$background: linear-gradient(45deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+
+$text-number: #fff;
+$shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+$shadow-inset: inset $shadow;
+
+// .dark:root {
+//
+// }
 
 // ---------------
-// # Mixin
+// # Function
 // ---------------
+
+@function dark($color, $percent: 80%) {
+    @return mix($color, #000, $percent);
+}
 
 // ---------------
 // # Base
@@ -19,7 +34,6 @@ $secondary: gray;
 
 html {
     box-sizing: border-box;
-    font-size: 16px;
 }
 
 *,
@@ -29,14 +43,50 @@ html {
 }
 
 // ---------------
+// # Typography
+// ---------------
+
+:root {
+    font-size: 16px;
+}
+
+.text-title {
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    text-shadow: $shadow;
+}
+
+.text-screen {
+    font-size: 1.5rem;
+    line-height: 1.2;
+}
+
+.key {
+    font-size: 1.5rem;
+}
+
+.i-circle {
+    font-size: 0.25em;
+}
+
+// ---------------
 // # Layout
 // ---------------
 
 #body {
     display: grid;
-    height: 100vh;
     place-items: center;
+    height: 100vh;
     width: 100%;
+}
+
+.screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: end;
 }
 
 .keyboard {
@@ -71,26 +121,27 @@ html {
 // # Componentes
 // ---------------
 
+.background {
+    border-radius: 28px;
+    padding: 0 32px;
+    padding-bottom: 28px;
+}
+
 .screen {
-    padding: 34px 6px;
-    margin-bottom: 12px;
+    padding: 0 12px;
+    height: 80px;
+    margin-bottom: 16px;
     border-radius: 8px;
+}
+
+.text-title {
+    margin: 12px 0;
 }
 
 .key {
-    padding: 4px 10px;
+    padding: 4px 14px;
     border-radius: 8px;
     border-style: none;
-    font-size: 2rem;
-}
-
-.background {
-    border-radius: 16px;
-    padding: 24px;
-}
-
-.i-circle {
-    font-size: 0.25em;
 }
 
 // ---------------
@@ -98,16 +149,22 @@ html {
 // ---------------
 
 #body {
-    background-color: rgb(2, 0, 36);
-    background: linear-gradient(45deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+    background-color: $bg-body;
+}
+
+.background {
+    box-shadow: $shadow;
+    background: $background;
 }
 
 .screen {
-    background-color: gray;
+    box-shadow: $shadow-inset;
+    background-color: $bg-screen;
 }
 
 .key {
-    color: white;
+    box-shadow: $shadow;
+    color: $text-number;
 
     &__number {
         background-color: $secondary;
@@ -119,3 +176,31 @@ html {
         background-color: $primary-variant;
     }
 }
+
+.key {
+    &__number:hover {
+        background-color: dark($secondary);
+    }
+    &__operator:hover {
+        background-color: dark($primary);
+    }
+    &__equals:hover {
+        background-color: dark($primary-variant);
+    }
+}
+
+.key {
+    &__number:active {
+        box-shadow: $shadow-inset;
+    }
+    &__operator:active {
+        box-shadow: $shadow-inset;
+    }
+    &__equals:active {
+        box-shadow: $shadow-inset;
+    }
+}
+
+// ---------------
+// # Utilitários
+// ---------------

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="dark" lang="pt-BR">
+<html class="" lang="pt-BR">
 
 <head>
     <meta charset="UTF-8" />
@@ -30,10 +30,14 @@
 
     <main class="background bg-light">
 
-        <section class="screen">
+        <header class="text-title">
+            calculadora.ts
+        </header>
 
-            <div class="screen__operation"></div>
-            <div class="screen__result"></div>
+        <section class="screen text-screen">
+
+            <div class="screen__operation">12</div>
+            <div class="screen__result">1212</div>
 
         </section>
 
@@ -48,23 +52,23 @@
                 <i class="fa-solid fa-delete-left"></i>
             </button>
 
-            <button type="button" class="key key__operator">
+            <button type="button" class="key key__operator" value="÷">
                 <i class="fa-solid fa-divide"></i>
             </button>
 
-            <button type="button" class="key key__operator">
+            <button type="button" class="key key__operator" value="×">
                 <i class="fa-solid fa-multiply"></i>
             </button>
 
-            <button type="button" class="key key__operator key__minus">
+            <button type="button" class="key key__operator key__minus" value="-">
                 <i class="fa-solid fa-minus"></i>
             </button>
 
-            <button type="button" class="key key__operator key__plus">
+            <button type="button" class="key key__operator key__plus" value="+">
                 <i class="fa-solid fa-plus"></i>
             </button>
 
-            <button type="button" class="key key__operator key__equals">
+            <button type="button" class="key key__operator key__equals" value="=">
                 <i class="fa-solid fa-equals"></i>
             </button>
 
@@ -110,7 +114,7 @@
                 <i class="fa-solid fa-0"></i>
             </button>
 
-            <button type="button" class="key key__number">
+            <button type="button" class="key key__number" value=".">
                 <i class="fa-solid fa-circle i-circle"></i>
             </button>
 
