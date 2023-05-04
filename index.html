@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="" lang="pt-BR">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8" />
@@ -22,7 +22,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- author -->
-    <link rel="stylesheet" href="dist/css/main.css" />
+    <link rel="stylesheet" href="dist/css/main.min.css" />
     <script src="dist/app.js" defer></script>
 </head>
 
@@ -36,85 +36,88 @@
 
         <section class="screen text-screen">
 
-            <div class="screen__operation">12</div>
-            <div class="screen__result">1212</div>
+            <div class="screen__operation js-operation">12</div>
+            <div class="screen__result text-result js-result">
+                <span class="screen__equals"> = </span>
+                1212
+            </div>
 
         </section>
 
         <section class="keyboard">
 
             <!-- Os botões das operações -->
-            <button type="button" class="key key__operator">
+            <button type="button" class="key key__operator js-delete-all">
                 <i class="fa-solid fa-c"></i>
             </button>
 
-            <button type="button" class="key key__operator">
+            <button type="button" class="key key__operator js-delete">
                 <i class="fa-solid fa-delete-left"></i>
             </button>
 
-            <button type="button" class="key key__operator" value="÷">
+            <button type="button" class="key key__operator js-operator" value="÷">
                 <i class="fa-solid fa-divide"></i>
             </button>
 
-            <button type="button" class="key key__operator" value="×">
+            <button type="button" class="key key__operator js-operator" value="×">
                 <i class="fa-solid fa-multiply"></i>
             </button>
 
-            <button type="button" class="key key__operator key__minus" value="-">
+            <button type="button" class="key key__operator key__minus js-operator" value="-">
                 <i class="fa-solid fa-minus"></i>
             </button>
 
-            <button type="button" class="key key__operator key__plus" value="+">
+            <button type="button" class="key key__operator key__plus js-operator" value="+">
                 <i class="fa-solid fa-plus"></i>
             </button>
 
-            <button type="button" class="key key__operator key__equals" value="=">
+            <button type="button" class="key key__operator key__equals js-equals" value="=">
                 <i class="fa-solid fa-equals"></i>
             </button>
 
 
             <!-- Os botões dos números -->
-            <button type="button" class="key key__number" value="7">
+            <button type="button" class="key key__number js-number" value="7">
                 <i class="fa-solid fa-7"></i>
             </button>
 
-            <button type="button" class="key key__number" value="8">
+            <button type="button" class="key key__number js-number" value="8">
                 <i class="fa-solid fa-8"></i>
             </button>
 
-            <button type="button" class="key key__number" value="9">
+            <button type="button" class="key key__number js-number" value="9">
                 <i class="fa-solid fa-9"></i>
             </button>
 
-            <button type="button" class="key key__number" value="4">
+            <button type="button" class="key key__number js-number" value="4">
                 <i class="fa-solid fa-4"></i>
             </button>
 
-            <button type="button" class="key key__number" value="5">
+            <button type="button" class="key key__number js-number" value="5">
                 <i class="fa-solid fa-5"></i>
             </button>
 
-            <button type="button" class="key key__number" value="6">
+            <button type="button" class="key key__number js-number" value="6">
                 <i class="fa-solid fa-6"></i>
             </button>
 
-            <button type="button" class="key key__number" value="1">
+            <button type="button" class="key key__number js-number" value="1">
                 <i class="fa-solid fa-1"></i>
             </button>
 
-            <button type="button" class="key key__number" value="2">
+            <button type="button" class="key key__number js-number" value="2">
                 <i class="fa-solid fa-2"></i>
             </button>
 
-            <button type="button" class="key key__number" value="3">
+            <button type="button" class="key key__number js-number" value="3">
                 <i class="fa-solid fa-3"></i>
             </button>
 
-            <button type="button" class="key key__number key__zero" value="0">
+            <button type="button" class="key key__number js-number key__zero" value="0">
                 <i class="fa-solid fa-0"></i>
             </button>
 
-            <button type="button" class="key key__number" value=".">
+            <button type="button" class="key key__number js-number" value=",">
                 <i class="fa-solid fa-circle i-circle"></i>
             </button>
 
