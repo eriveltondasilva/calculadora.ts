@@ -56,8 +56,13 @@ html {
 .screen {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: end;
+}
+
+.screen__result,
+.screen__operation {
+  display: flex;
+  align-items: center;
 }
 
 .keyboard {
@@ -90,9 +95,13 @@ html {
 
 .screen {
   border-radius: 6px;
-  height: 80px;
   margin-bottom: 16px;
   padding: 0 12px;
+}
+
+.screen__result,
+.screen__operation {
+  height: 2.4rem;
 }
 
 .text-title {
