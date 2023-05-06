@@ -1,59 +1,86 @@
 // * shortcuts
-const SELECTOR = (selector: string) => document.querySelector<HTMLElement>(selector)!;
-const SELECTOR_BTN = (selector: string) => document.querySelectorAll<HTMLButtonElement>(selector)!;
+const selector = (e: string) => document.querySelector<HTMLElement>(e)!;
+const selectorBtn = (e: string) => document.querySelectorAll<HTMLButtonElement>(e)!;
+const deleteCharacter = (e: HTMLElement) => (e.textContent = e.textContent && e.textContent.slice(0, -1));
 
 // * const para capturar elementos html
-const KEY_NUMBERS = SELECTOR_BTN(".js-number");
-const KEY_OPERATORS = SELECTOR_BTN(".js-operator");
+const KEY_NUMBERS = selectorBtn(".js-number");
+const KEY_OPERATORS = selectorBtn(".js-operator");
 
-const OPERATION = SELECTOR(".js-operation");
-const RESULT = SELECTOR(".js-result");
-const DELETE = SELECTOR(".js-delete");
-const DELETE_ALL = SELECTOR(".js-delete-all");
+const OPERATION = selector(".js-operation");
+const RESULT = selector(".js-result");
+const DELETE = selector(".js-delete");
+const DELETE_ALL = selector(".js-delete-all");
+const EQUALS = selector(". js-equals");
 
 // * const
-const displayLimiter = 8;
+const displayLimiter = 9;
+
+const displayLength = () => {
+    const displayLength = RESULT.textContent?.length || 0;
+
+    return displayLength;
+};
+
+const limiterOperator = () => {
+    const pattern = /[-+×÷]/;
+    const limiterOperator = pattern.test(OPERATION.textContent || "");
+
+    return limiterOperator;
+};
 
 // * funções
-
 // Deleta todas as informações da tela.
 DELETE_ALL.addEventListener("click", () => {
     RESULT.textContent = "";
     OPERATION.textContent = "";
 });
 
-KEY_NUMBERS.forEach((number) => number.addEventListener("click", typeNumber));
+// Deleta todas as informações da tela.
+DELETE.addEventListener("click", () => {
+    if (displayLength() === 0 && limiterOperator()) {
+        RESULT.textContent = OPERATION.textContent;
+        OPERATION.textContent = "";
+    }
 
+    deleteCharacter(RESULT);
+});
+
+// --------------------------------------------------
+// --------------------------------------------------
+
+KEY_NUMBERS.forEach((number) => number.addEventListener("click", typeNumber));
 function typeNumber(this: HTMLButtonElement): void {
     const value = this.value;
-    const displayLength = RESULT.textContent?.length ?? 0;
 
-    _displayLength(displayLength);
+    _limiterLength();
 
-    _limiterZero(value, displayLength);
+    _limiterZero(value);
 
     _limiterDot(value);
 
     RESULT.textContent += value;
 }
 
-// funções auxiliares
-function _displayLength(displayLength: number): void {
-    if (displayLength >= displayLimiter) {
+// * funções auxiliares
+//
+function _limiterLength() {
+    if (displayLength() >= displayLimiter) {
         throw "";
     }
 }
 
 //
-function _limiterZero(value: string, displayLength: number): void {
+function _limiterZero(value: string): void {
     const firstCharacter = RESULT.textContent?.charAt(0);
 
     if (firstCharacter === "0" && value === ",") {
         return;
     }
 
-    if (firstCharacter === "0" && displayLength === 1) {
+    if (firstCharacter === "0" && displayLength() === 1) {
         RESULT.textContent = "";
+
         return;
     }
 
@@ -71,12 +98,34 @@ function _limiterDot(value: string) {
     }
 }
 
-//
+// --------------------------------------------------
+// --------------------------------------------------
 
 KEY_OPERATORS.forEach((operator) => operator.addEventListener("click", typeOperator));
 
-function typeOperator(this: HTMLButtonElement): void {
+function typeOperator(this: HTMLButtonElement) {
     const value = this.value;
 
-    RESULT.textContent += value;
+    if (limiterOperator() && displayLength()) {
+        return;
+    }
+
+    if (limiterOperator()) {
+        deleteCharacter(OPERATION);
+        OPERATION.textContent += value;
+
+        return;
+    }
+
+    OPERATION.textContent = RESULT.textContent;
+    RESULT.textContent = "";
+
+    OPERATION.textContent += value;
 }
+
+// --------------------------------------------------
+// --------------------------------------------------
+
+EQUALS.addEventListener("click", () => {
+    // deleteCharacter(RESULT);
+});
