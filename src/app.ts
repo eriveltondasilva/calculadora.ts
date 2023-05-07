@@ -1,7 +1,7 @@
 // * shortcuts
 const selector = (e: string) => document.querySelector<HTMLElement>(e)!;
 const selectorBtn = (e: string) => document.querySelectorAll<HTMLButtonElement>(e)!;
-const deleteCharacter = (e: HTMLElement) => (e.textContent = e.textContent && e.textContent.slice(0, -1));
+// ! const deleteCharacter = (e: HTMLElement) => (e.textContent = e.textContent && e.textContent.slice(0, -1));
 
 // * const para capturar elementos html
 const KEY_NUMBERS = selectorBtn(".js-number");
@@ -12,10 +12,10 @@ const RESULT = selector(".js-result");
 const DELETE = selector(".js-delete");
 const DELETE_ALL = selector(".js-delete-all");
 const EQUALS = selector(".js-equals");
-// const SCREEN_EQUALS = selector(".js-screenEquals");
 
 // * const
 const displayLimiter = 9;
+const pattern = /[-+×÷]/;
 
 const displayLength = (e: HTMLElement): number => {
     const displayLength = e.textContent?.length ?? 0;
@@ -23,12 +23,13 @@ const displayLength = (e: HTMLElement): number => {
 };
 
 const limiterOperator = () => {
-    const pattern = /[-+×÷]/;
     const limiterOperator = pattern.test(OPERATION.textContent || "");
     return limiterOperator;
 };
 
-// * funções
+// --------------------------------------------------
+// --------------------------------------------------
+
 // Deleta todas as informações da tela.
 DELETE_ALL.addEventListener("click", deleteAll);
 
@@ -37,30 +38,34 @@ function deleteAll() {
     OPERATION.textContent = "";
 }
 
-// Deleta todas as informações da tela.
-DELETE.addEventListener("click", () => {
+//
+DELETE.addEventListener("click", deleteCharacter);
+
+function deleteCharacter(e?: HTMLElement) {
     _limiterEquals();
-    
+
     if (displayLength(RESULT) === 0 && limiterOperator()) {
         RESULT.textContent = OPERATION.textContent;
         OPERATION.textContent = "";
+        return;
     }
 
-    deleteCharacter(RESULT);
-});
+    // e.textContent = e.textContent && e.textContent.slice(0, -1);
+}
 
 // --------------------------------------------------
 // --------------------------------------------------
 
 KEY_NUMBERS.forEach((number) => number.addEventListener("click", typeNumber));
-function typeNumber(this: HTMLButtonElement): void {
+
+function typeNumber(this: HTMLButtonElement) {
     const value = this.value;
 
     _limiterLength();
 
     _limiterEquals();
 
-    _limiterZero(value);
+    _limiterZero();
 
     _limiterDot(value);
 
@@ -76,20 +81,12 @@ function _limiterLength() {
 }
 
 //
-function _limiterZero(value: string): void {
+function _limiterZero() {
     const is_firstCharacter = RESULT.textContent?.charAt(0);
-
-    if (is_firstCharacter === "0" && value === ",") {
-        return;
-    }
 
     if (is_firstCharacter === "0" && displayLength(RESULT) === 1) {
         RESULT.textContent = "";
         return;
-    }
-
-    if (is_firstCharacter === "0" && value === "0") {
-        throw "";
     }
 }
 
@@ -137,24 +134,28 @@ function typeOperator(this: HTMLButtonElement) {
         return;
     }
 
-    OPERATION.textContent = RESULT.textContent;
+    OPERATION.textContent = _filterNumber(RESULT.textContent || "");
     RESULT.textContent = "";
 
     OPERATION.textContent += value;
 }
 
+function _filterNumber(e: string) {
+    let string = e;
+
+    if (string.endsWith(",")) {
+        string = string.slice(0, -1);
+    }
+
+    return string;
+}
 // --------------------------------------------------
 // --------------------------------------------------
 
 EQUALS.addEventListener("click", typeEquals);
 
 function typeEquals() {
-    let operation = "";
-    let results: string[] = [];
-    let result = "";
-    const pattern = /[-+×÷]/;
     const equals = RESULT.textContent?.includes("=");
-    // const screenEquals = SCREEN_EQUALS.textContent?.length ?? 0;
 
     //
     if (displayLength(RESULT) === 0 || displayLength(OPERATION) === 0) {
@@ -167,28 +168,38 @@ function typeEquals() {
     }
 
     //
-    OPERATION.textContent += RESULT.textContent ?? "";
+    OPERATION.textContent += _filterNumber(RESULT.textContent || "");
     RESULT.textContent = "";
 
     //
-    operation = OPERATION.textContent ?? "";
-    operation = operation.replace(/[,]/g, ".");
-    results = operation.split(pattern);
+    let operation = OPERATION.textContent || "";
+    let numbers = operation.replace(/[,]/g, ".").split(pattern);
 
     //
-    let firstNumber = Number(results[0]);
-    let lastNumber = Number(results[1]);
+    let firstNumber = Number(numbers[0]);
+    let lastNumber = Number(numbers[1]);
 
-    // switch (key) {
-    //     case value:
-    //         break;
+    //
+    let result = _operations(firstNumber, lastNumber).toString().replace(".", ",");
 
-    //     default:
-    //         break;
-    // }
+    //
+    RESULT.innerHTML = `<div class="screen__equals"> = &nbsp </div> ${result}`;
+}
 
-    result = String(firstNumber + lastNumber).replace(/[.]/g, ",");
-    RESULT.textContent = "= " + result;
-    // SCREEN_EQUALS.textContent = "= ";
-    // RESULT.textContent = "= " + result[1] + "----" + result[0];
+//
+function _operations(firstNumber: number, lastNumber: number) {
+    const operator = String(OPERATION.textContent?.match(pattern));
+
+    switch (operator) {
+        case "+":
+            return firstNumber + lastNumber;
+        case "-":
+            return firstNumber - lastNumber;
+        case "×":
+            return firstNumber * lastNumber;
+        case "÷":
+            return firstNumber / lastNumber;
+        default:
+            return 0;
+    }
 }
