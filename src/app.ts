@@ -158,6 +158,8 @@ function typeOperator(this: HTMLButtonElement) {
 //
 EQUALS.addEventListener("click", typeEquals);
 function typeEquals() {
+    let result: number | string;
+
     //
     if (displayLengthOf(RESULT) === 0 || displayLengthOf(OPERATION) === 0) {
         return;
@@ -181,7 +183,16 @@ function typeEquals() {
     let lastNumber  = Number(numbers[1]);
 
     //
-    let result = operations(firstNumber, lastNumber).toString().replace(".", ",");
+    result = operations(firstNumber, lastNumber);
+
+    let hasDot = result.toString().includes(".");
+
+    if (hasDot) {
+        result = result.toFixed(5);
+        result = Number(result);
+    }
+
+    result = result.toString().replace(".", ",");
     
     if (result.length > limitsResult) {
         result = "Error! Too large";
