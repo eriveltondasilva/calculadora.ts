@@ -4,6 +4,12 @@
 // # Variables
 // ---------------
 
+// fonts
+$fonts: Arial, Helvetica, sans-serif;
+$font-poppins: "Poppins", $fonts;
+$font-sourceSansPro: "Source Sans Pro", $fonts;
+$font-parisienne: "Parisienne", $fonts;
+
 // colors
 $primary: #2563eb;
 $primary-variant: #2dd4bf;
@@ -56,19 +62,24 @@ html {
 }
 
 .text-title {
-    font-size: 2rem;
+    font-family: $font-poppins;
+    font-size: 1.8rem;
     font-weight: 600;
     text-align: center;
     user-select: none;
 }
 
 .text-screen {
-    font-size: 1.5rem;
-    line-height: 1.2;
-    font-weight: 500;
+    font-family: $font-sourceSansPro;
+}
+
+.text-operation {
+    font-size: 1.4rem;
+    font-weight: 400;
 }
 
 .text-result {
+    font-size: 1.6rem;
     font-weight: 700;
 }
 
@@ -83,6 +94,12 @@ html {
 
 .i-circle {
     font-size: 0.25em;
+}
+
+.footer {
+    font-family: $font-parisienne;
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 
 // ---------------

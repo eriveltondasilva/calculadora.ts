@@ -13,7 +13,8 @@ html {
 }
 
 .text-title {
-  font-size: 2rem;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: 1.8rem;
   font-weight: 600;
   text-align: center;
   -webkit-user-select: none;
@@ -22,12 +23,16 @@ html {
 }
 
 .text-screen {
-  font-size: 1.5rem;
-  line-height: 1.2;
-  font-weight: 500;
+  font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
+}
+
+.text-operation {
+  font-size: 1.4rem;
+  font-weight: 400;
 }
 
 .text-result {
+  font-size: 1.6rem;
   font-weight: 700;
 }
 
@@ -44,6 +49,12 @@ html {
 
 .i-circle {
   font-size: 0.25em;
+}
+
+.footer {
+  font-family: "Parisienne", Arial, Helvetica, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 #body {

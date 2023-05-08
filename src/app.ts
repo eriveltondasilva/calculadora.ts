@@ -1,100 +1,54 @@
-// * shortcuts
-const selector = (e: string) => document.querySelector<HTMLElement>(e)!;
-const selectorBtn = (e: string) => document.querySelectorAll<HTMLButtonElement>(e)!;
-// ! const deleteCharacter = (e: HTMLElement) => (e.textContent = e.textContent && e.textContent.slice(0, -1));
+// * Const
+const displayLimiter: number = 9;
+const limitsResult: number   = 10;
+const pattern                = /[-+×÷]/;
 
-// * const para capturar elementos html
-const KEY_NUMBERS = selectorBtn(".js-number");
+// * Const: shortcuts
+const selector    = (e: string) => document.querySelector<HTMLElement>(e)!;
+const selectorBtn = (e: string) => document.querySelectorAll<HTMLButtonElement>(e)!;
+
+// * Const: elementos HTML
+const KEY_NUMBERS   = selectorBtn(".js-number");
 const KEY_OPERATORS = selectorBtn(".js-operator");
 
-const OPERATION = selector(".js-operation");
-const RESULT = selector(".js-result");
-const DELETE = selector(".js-delete");
+const OPERATION  = selector(".js-operation");
+const RESULT     = selector(".js-result");
+const DELETE     = selector(".js-delete");
 const DELETE_ALL = selector(".js-delete-all");
-const EQUALS = selector(".js-equals");
+const EQUALS     = selector(".js-equals");
 
-// * const
-const displayLimiter = 9;
-const pattern = /[-+×÷]/;
-
-const displayLength = (e: HTMLElement): number => {
-    const displayLength = e.textContent?.length ?? 0;
-    return displayLength;
-};
-
-const limiterOperator = () => {
-    const limiterOperator = pattern.test(OPERATION.textContent || "");
-    return limiterOperator;
-};
+// * Const: funções
+const displayLengthOf        = (e: HTMLElement) => e.textContent?.length ?? 0;
+const deletesLastCharacterOf = (e: HTMLElement) => (e.textContent = e.textContent && e.textContent.slice(0, -1));
+const hasOperator            = () => pattern.test(OPERATION.textContent || "");
+const hasEquals              = () => RESULT.textContent?.includes("=");
 
 // --------------------------------------------------
 // --------------------------------------------------
 
-// Deleta todas as informações da tela.
-DELETE_ALL.addEventListener("click", deleteAll);
-
-function deleteAll() {
-    RESULT.textContent = "";
-    OPERATION.textContent = "";
-}
-
-//
-DELETE.addEventListener("click", deleteCharacter);
-
-function deleteCharacter(e?: HTMLElement) {
-    _limiterEquals();
-
-    if (displayLength(RESULT) === 0 && limiterOperator()) {
-        RESULT.textContent = OPERATION.textContent;
-        OPERATION.textContent = "";
-        return;
-    }
-
-    // e.textContent = e.textContent && e.textContent.slice(0, -1);
-}
-
-// --------------------------------------------------
-// --------------------------------------------------
-
-KEY_NUMBERS.forEach((number) => number.addEventListener("click", typeNumber));
-
-function typeNumber(this: HTMLButtonElement) {
-    const value = this.value;
-
-    _limiterLength();
-
-    _limiterEquals();
-
-    _limiterZero();
-
-    _limiterDot(value);
-
-    RESULT.textContent += value;
-}
-
-// * funções auxiliares
-//
+// * Funções auxiliares
+// Limita os caracteres da tela
 function _limiterLength() {
-    if (displayLength(RESULT) >= displayLimiter) {
+    if (displayLengthOf(RESULT) >= displayLimiter) {
         throw "";
     }
 }
 
-//
+// Limita os zeros
 function _limiterZero() {
     const is_firstCharacter = RESULT.textContent?.charAt(0);
 
-    if (is_firstCharacter === "0" && displayLength(RESULT) === 1) {
+    if (is_firstCharacter === "0" && displayLengthOf(RESULT) === 1) {
         RESULT.textContent = "";
         return;
     }
 }
 
-//
+// Limita os pontos
 function _limiterDot(value: string) {
     const has_dot = RESULT.textContent?.includes(",");
 
-    if (displayLength(RESULT) === 0 && value === ",") {
+    if (displayLengthOf(RESULT) === 0 && value === ",") {
         RESULT.textContent += "0";
     }
 
@@ -103,96 +57,149 @@ function _limiterDot(value: string) {
     }
 }
 
-//
+// Limita quando há um sinal de igualdade na tela
 function _limiterEquals() {
-    const equals = RESULT.textContent?.includes("=");
-
-    if (equals) {
+    if (hasEquals()) {
         deleteAll();
     }
 }
 
+// Filtro que impede número com vírgula sem a parte decimal
+function _filterNumber(e: string) {
+    if (e.endsWith(",")) {
+        e = e.slice(0, -1);
+    }
+    return e;
+}
+
 // --------------------------------------------------
 // --------------------------------------------------
 
+// * Deleta todas as informações da tela.
+DELETE_ALL.addEventListener("click", deleteAll);
+function deleteAll() {
+    RESULT.textContent    = "";
+    OPERATION.textContent = "";
+}
+
+// * Deleta o último caractere
+DELETE.addEventListener("click", () => {
+    _limiterEquals();
+
+    // Tira o conteúdo do screen__operation e retorna-o para o screen__result
+    if (displayLengthOf(RESULT) <= 1 && hasOperator()) {
+        RESULT.textContent    = OPERATION.textContent;
+        OPERATION.textContent = "";
+    }
+
+    // Função para apagar o último caractere do screen__result
+    deletesLastCharacterOf(RESULT);
+});
+
+// --------------------------------------------------
+// --------------------------------------------------
+
+// * Digita os números na tela
+KEY_NUMBERS.forEach((number) => number.addEventListener("click", typeNumber));
+function typeNumber(this: HTMLButtonElement) {
+    const value = this.value;
+
+    // Limitadores
+    _limiterLength();
+    _limiterEquals();
+    _limiterZero();
+    _limiterDot(value);
+
+    RESULT.textContent += value;
+}
+
+// --------------------------------------------------
+// --------------------------------------------------
+
+// * Digita os sinais das operações
 KEY_OPERATORS.forEach((operator) => operator.addEventListener("click", typeOperator));
-
 function typeOperator(this: HTMLButtonElement) {
     const value = this.value;
 
-    if (displayLength(RESULT) === 0 && displayLength(OPERATION) === 0) {
+    // Limita inserção de sinais de operação
+    if (displayLengthOf(RESULT) === 0 && displayLengthOf(OPERATION) === 0) {
         return;
     }
 
-    if (limiterOperator() === true && displayLength(RESULT) === 0) {
-        deleteCharacter(OPERATION);
+    if (hasEquals()) {
+        // Retira o sinal de igual do screen__result e joga de volta no screen__operation
+        OPERATION.textContent  = RESULT.textContent?.slice(6) || "";
+        RESULT.textContent     = "";
+
         OPERATION.textContent += value;
         return;
     }
 
-    if (limiterOperator() === true) {
+    // Troca o sinal da operação atual
+    if (hasOperator() === true && displayLengthOf(RESULT) === 0) {
+        deletesLastCharacterOf(OPERATION);
+        OPERATION.textContent += value;
         return;
     }
 
-    OPERATION.textContent = _filterNumber(RESULT.textContent || "");
-    RESULT.textContent = "";
+    // Limita sinais de operação
+    if (hasOperator() === true) {
+        return;
+    }
 
+    OPERATION.textContent  = _filterNumber(RESULT.textContent || "");
+    RESULT.textContent     = "";
     OPERATION.textContent += value;
 }
 
-function _filterNumber(e: string) {
-    let string = e;
-
-    if (string.endsWith(",")) {
-        string = string.slice(0, -1);
-    }
-
-    return string;
-}
 // --------------------------------------------------
 // --------------------------------------------------
 
+//
 EQUALS.addEventListener("click", typeEquals);
-
 function typeEquals() {
-    const equals = RESULT.textContent?.includes("=");
-
     //
-    if (displayLength(RESULT) === 0 || displayLength(OPERATION) === 0) {
+    if (displayLengthOf(RESULT) === 0 || displayLengthOf(OPERATION) === 0) {
         return;
     }
 
     //
-    if (equals) {
+    if (hasEquals()) {
         return;
     }
 
     //
     OPERATION.textContent += _filterNumber(RESULT.textContent || "");
-    RESULT.textContent = "";
+    RESULT.textContent     = "";
 
     //
     let operation = OPERATION.textContent || "";
-    let numbers = operation.replace(/[,]/g, ".").split(pattern);
+    let numbers   = operation.replace(/[,]/g, ".").split(pattern);
 
     //
     let firstNumber = Number(numbers[0]);
-    let lastNumber = Number(numbers[1]);
+    let lastNumber  = Number(numbers[1]);
 
     //
-    let result = _operations(firstNumber, lastNumber).toString().replace(".", ",");
+    let result = operations(firstNumber, lastNumber).toString().replace(".", ",");
+    
+    if (result.length > limitsResult) {
+        result = "Error! Too large";
+        // result = result.slice(0, limitsResult) + "e+";
+    }
 
     //
     RESULT.innerHTML = `<div class="screen__equals"> = &nbsp </div> ${result}`;
 }
 
-//
-function _operations(firstNumber: number, lastNumber: number) {
+// Executa as operações
+function operations(firstNumber: number, lastNumber: number) {
     const operator = String(OPERATION.textContent?.match(pattern));
 
     switch (operator) {
         case "+":
-            return firstNumber + lastNumber;
+            // Multiplica ambos os números por 10 e divide por 10 para evitar a imprecisão dos números decimais(0.2+0.1!=0.3).
+            return (firstNumber * 10 + lastNumber * 10) / 10;
         case "-":
             return firstNumber - lastNumber;
         case "×":

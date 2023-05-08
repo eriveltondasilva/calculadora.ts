@@ -1,4 +1,7 @@
 "use strict";
+const displayLimiter = 9;
+const limitsResult = 10;
+const pattern = /[-+×÷]/;
 const selector = (e) => document.querySelector(e);
 const selectorBtn = (e) => document.querySelectorAll(e);
 const KEY_NUMBERS = selectorBtn(".js-number");
@@ -8,31 +11,57 @@ const RESULT = selector(".js-result");
 const DELETE = selector(".js-delete");
 const DELETE_ALL = selector(".js-delete-all");
 const EQUALS = selector(".js-equals");
-const displayLimiter = 9;
-const pattern = /[-+×÷]/;
-const displayLength = (e) => {
-    var _a, _b;
-    const displayLength = (_b = (_a = e.textContent) === null || _a === void 0 ? void 0 : _a.length) !== null && _b !== void 0 ? _b : 0;
-    return displayLength;
-};
-const limiterOperator = () => {
-    const limiterOperator = pattern.test(OPERATION.textContent || "");
-    return limiterOperator;
-};
+const displayLengthOf = (e) => { var _a, _b; return (_b = (_a = e.textContent) === null || _a === void 0 ? void 0 : _a.length) !== null && _b !== void 0 ? _b : 0; };
+const deletesLastCharacterOf = (e) => (e.textContent = e.textContent && e.textContent.slice(0, -1));
+const hasOperator = () => pattern.test(OPERATION.textContent || "");
+const hasEquals = () => { var _a; return (_a = RESULT.textContent) === null || _a === void 0 ? void 0 : _a.includes("="); };
+function _limiterLength() {
+    if (displayLengthOf(RESULT) >= displayLimiter) {
+        throw "";
+    }
+}
+function _limiterZero() {
+    var _a;
+    const is_firstCharacter = (_a = RESULT.textContent) === null || _a === void 0 ? void 0 : _a.charAt(0);
+    if (is_firstCharacter === "0" && displayLengthOf(RESULT) === 1) {
+        RESULT.textContent = "";
+        return;
+    }
+}
+function _limiterDot(value) {
+    var _a;
+    const has_dot = (_a = RESULT.textContent) === null || _a === void 0 ? void 0 : _a.includes(",");
+    if (displayLengthOf(RESULT) === 0 && value === ",") {
+        RESULT.textContent += "0";
+    }
+    if (has_dot && value === ",") {
+        throw "";
+    }
+}
+function _limiterEquals() {
+    if (hasEquals()) {
+        deleteAll();
+    }
+}
+function _filterNumber(e) {
+    if (e.endsWith(",")) {
+        e = e.slice(0, -1);
+    }
+    return e;
+}
 DELETE_ALL.addEventListener("click", deleteAll);
 function deleteAll() {
     RESULT.textContent = "";
     OPERATION.textContent = "";
 }
-DELETE.addEventListener("click", deleteCharacter);
-function deleteCharacter(e) {
+DELETE.addEventListener("click", () => {
     _limiterEquals();
-    if (displayLength(RESULT) === 0 && limiterOperator()) {
+    if (displayLengthOf(RESULT) <= 1 && hasOperator()) {
         RESULT.textContent = OPERATION.textContent;
         OPERATION.textContent = "";
-        return;
     }
-}
+    deletesLastCharacterOf(RESULT);
+});
 KEY_NUMBERS.forEach((number) => number.addEventListener("click", typeNumber));
 function typeNumber() {
     const value = this.value;
@@ -42,69 +71,37 @@ function typeNumber() {
     _limiterDot(value);
     RESULT.textContent += value;
 }
-function _limiterLength() {
-    if (displayLength(RESULT) >= displayLimiter) {
-        throw "";
-    }
-}
-function _limiterZero() {
-    var _a;
-    const is_firstCharacter = (_a = RESULT.textContent) === null || _a === void 0 ? void 0 : _a.charAt(0);
-    if (is_firstCharacter === "0" && displayLength(RESULT) === 1) {
-        RESULT.textContent = "";
-        return;
-    }
-}
-function _limiterDot(value) {
-    var _a;
-    const has_dot = (_a = RESULT.textContent) === null || _a === void 0 ? void 0 : _a.includes(",");
-    if (displayLength(RESULT) === 0 && value === ",") {
-        RESULT.textContent += "0";
-    }
-    if (has_dot && value === ",") {
-        throw "";
-    }
-}
-function _limiterEquals() {
-    var _a;
-    const equals = (_a = RESULT.textContent) === null || _a === void 0 ? void 0 : _a.includes("=");
-    if (equals) {
-        deleteAll();
-    }
-}
 KEY_OPERATORS.forEach((operator) => operator.addEventListener("click", typeOperator));
 function typeOperator() {
+    var _a;
     const value = this.value;
-    if (displayLength(RESULT) === 0 && displayLength(OPERATION) === 0) {
+    if (displayLengthOf(RESULT) === 0 && displayLengthOf(OPERATION) === 0) {
         return;
     }
-    if (limiterOperator() === true && displayLength(RESULT) === 0) {
-        deleteCharacter(OPERATION);
+    if (hasEquals()) {
+        OPERATION.textContent = ((_a = RESULT.textContent) === null || _a === void 0 ? void 0 : _a.slice(6)) || "";
+        RESULT.textContent = "";
         OPERATION.textContent += value;
         return;
     }
-    if (limiterOperator() === true) {
+    if (hasOperator() === true && displayLengthOf(RESULT) === 0) {
+        deletesLastCharacterOf(OPERATION);
+        OPERATION.textContent += value;
+        return;
+    }
+    if (hasOperator() === true) {
         return;
     }
     OPERATION.textContent = _filterNumber(RESULT.textContent || "");
     RESULT.textContent = "";
     OPERATION.textContent += value;
 }
-function _filterNumber(e) {
-    let string = e;
-    if (string.endsWith(",")) {
-        string = string.slice(0, -1);
-    }
-    return string;
-}
 EQUALS.addEventListener("click", typeEquals);
 function typeEquals() {
-    var _a;
-    const equals = (_a = RESULT.textContent) === null || _a === void 0 ? void 0 : _a.includes("=");
-    if (displayLength(RESULT) === 0 || displayLength(OPERATION) === 0) {
+    if (displayLengthOf(RESULT) === 0 || displayLengthOf(OPERATION) === 0) {
         return;
     }
-    if (equals) {
+    if (hasEquals()) {
         return;
     }
     OPERATION.textContent += _filterNumber(RESULT.textContent || "");
@@ -113,15 +110,18 @@ function typeEquals() {
     let numbers = operation.replace(/[,]/g, ".").split(pattern);
     let firstNumber = Number(numbers[0]);
     let lastNumber = Number(numbers[1]);
-    let result = _operations(firstNumber, lastNumber).toString().replace(".", ",");
+    let result = operations(firstNumber, lastNumber).toString().replace(".", ",");
+    if (result.length > limitsResult) {
+        result = "Error! Too large";
+    }
     RESULT.innerHTML = `<div class="screen__equals"> = &nbsp </div> ${result}`;
 }
-function _operations(firstNumber, lastNumber) {
+function operations(firstNumber, lastNumber) {
     var _a;
     const operator = String((_a = OPERATION.textContent) === null || _a === void 0 ? void 0 : _a.match(pattern));
     switch (operator) {
         case "+":
-            return firstNumber + lastNumber;
+            return (firstNumber * 10 + lastNumber * 10) / 10;
         case "-":
             return firstNumber - lastNumber;
         case "×":
