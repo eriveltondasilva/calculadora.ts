@@ -79,7 +79,7 @@ function typeOperator() {
         return;
     }
     if (hasEquals()) {
-        OPERATION.textContent = ((_a = RESULT.textContent) === null || _a === void 0 ? void 0 : _a.slice(6)) || "";
+        OPERATION.textContent = ((_a = RESULT.textContent) === null || _a === void 0 ? void 0 : _a.slice(6).replace("-", "")) || "";
         RESULT.textContent = "";
         OPERATION.textContent += value;
         return;
@@ -128,7 +128,7 @@ function operations(firstNumber, lastNumber) {
     const operator = String((_a = OPERATION.textContent) === null || _a === void 0 ? void 0 : _a.match(pattern));
     switch (operator) {
         case "+":
-            return (firstNumber * 10 + lastNumber * 10) / 10;
+            return firstNumber * 10 + (lastNumber * 10) / 10;
         case "-":
             return firstNumber - lastNumber;
         case "×":

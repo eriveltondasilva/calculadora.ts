@@ -12,7 +12,7 @@
 
 <h3>Deploy:</h3>
 <p>
-  <a href="https://codepen.io/eriveltondasilva/pen/gOBXNBR">Clique aqui</a>
+  <a href="https://codepen.io/eriveltondasilva/full/gOBXNBR">Clique aqui</a>
   para ver este projeto em funcionamento.
 </p>
 

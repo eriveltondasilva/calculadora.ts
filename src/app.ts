@@ -1,27 +1,27 @@
 // * Const
 const displayLimiter: number = 9;
-const limitsResult: number   = 10;
-const pattern                = /[-+×÷]/;
+const limitsResult: number = 10;
+const pattern = /[-+×÷]/;
 
 // * Const: shortcuts
-const selector    = (e: string) => document.querySelector<HTMLElement>(e)!;
+const selector = (e: string) => document.querySelector<HTMLElement>(e)!;
 const selectorBtn = (e: string) => document.querySelectorAll<HTMLButtonElement>(e)!;
 
 // * Const: elementos HTML
-const KEY_NUMBERS   = selectorBtn(".js-number");
+const KEY_NUMBERS = selectorBtn(".js-number");
 const KEY_OPERATORS = selectorBtn(".js-operator");
 
-const OPERATION  = selector(".js-operation");
-const RESULT     = selector(".js-result");
-const DELETE     = selector(".js-delete");
+const OPERATION = selector(".js-operation");
+const RESULT = selector(".js-result");
+const DELETE = selector(".js-delete");
 const DELETE_ALL = selector(".js-delete-all");
-const EQUALS     = selector(".js-equals");
+const EQUALS = selector(".js-equals");
 
 // * Const: funções
-const displayLengthOf        = (e: HTMLElement) => e.textContent?.length ?? 0;
+const displayLengthOf = (e: HTMLElement) => e.textContent?.length ?? 0;
 const deletesLastCharacterOf = (e: HTMLElement) => (e.textContent = e.textContent && e.textContent.slice(0, -1));
-const hasOperator            = () => pattern.test(OPERATION.textContent || "");
-const hasEquals              = () => RESULT.textContent?.includes("=");
+const hasOperator = () => pattern.test(OPERATION.textContent || "");
+const hasEquals = () => RESULT.textContent?.includes("=");
 
 // --------------------------------------------------
 // --------------------------------------------------
@@ -78,7 +78,7 @@ function _filterNumber(e: string) {
 // * Deleta todas as informações da tela.
 DELETE_ALL.addEventListener("click", deleteAll);
 function deleteAll() {
-    RESULT.textContent    = "";
+    RESULT.textContent = "";
     OPERATION.textContent = "";
 }
 
@@ -88,7 +88,7 @@ DELETE.addEventListener("click", () => {
 
     // Tira o conteúdo do screen__operation e retorna-o para o screen__result
     if (displayLengthOf(RESULT) <= 1 && hasOperator()) {
-        RESULT.textContent    = OPERATION.textContent;
+        RESULT.textContent = OPERATION.textContent;
         OPERATION.textContent = "";
     }
 
@@ -127,9 +127,9 @@ function typeOperator(this: HTMLButtonElement) {
     }
 
     if (hasEquals()) {
-        // Retira o sinal de igual do screen__result e joga de volta no screen__operation
-        OPERATION.textContent  = RESULT.textContent?.slice(6) || "";
-        RESULT.textContent     = "";
+        // Retira o sinal de igual do screen__result e joga o resultado de volta no screen__operation
+        OPERATION.textContent = RESULT.textContent?.slice(6).replace("-", "") || "";
+        RESULT.textContent = "";
 
         OPERATION.textContent += value;
         return;
@@ -147,8 +147,8 @@ function typeOperator(this: HTMLButtonElement) {
         return;
     }
 
-    OPERATION.textContent  = _filterNumber(RESULT.textContent || "");
-    RESULT.textContent     = "";
+    OPERATION.textContent = _filterNumber(RESULT.textContent || "");
+    RESULT.textContent = "";
     OPERATION.textContent += value;
 }
 
@@ -172,15 +172,15 @@ function typeEquals() {
 
     //
     OPERATION.textContent += _filterNumber(RESULT.textContent || "");
-    RESULT.textContent     = "";
+    RESULT.textContent = "";
 
     //
     let operation = OPERATION.textContent || "";
-    let numbers   = operation.replace(/[,]/g, ".").split(pattern);
+    let numbers = operation.replace(/[,]/g, ".").split(pattern);
 
     //
     let firstNumber = Number(numbers[0]);
-    let lastNumber  = Number(numbers[1]);
+    let lastNumber = Number(numbers[1]);
 
     //
     result = operations(firstNumber, lastNumber);
@@ -193,7 +193,7 @@ function typeEquals() {
     }
 
     result = result.toString().replace(".", ",");
-    
+
     if (result.length > limitsResult) {
         result = "Error! Too large";
         // result = result.slice(0, limitsResult) + "e+";
@@ -210,7 +210,7 @@ function operations(firstNumber: number, lastNumber: number) {
     switch (operator) {
         case "+":
             // Multiplica ambos os números por 10 e divide por 10 para evitar a imprecisão dos números decimais(0.2+0.1!=0.3).
-            return (firstNumber * 10 + lastNumber * 10) / 10;
+            return firstNumber * 10 + (lastNumber * 10) / 10;
         case "-":
             return firstNumber - lastNumber;
         case "×":
