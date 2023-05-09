@@ -131,14 +131,14 @@ function typeOperator(this: HTMLButtonElement) {
         OPERATION.textContent = RESULT.textContent?.slice(6).replace("-", "") || "";
         RESULT.textContent = "";
 
-        OPERATION.textContent += value;
+        OPERATION.textContent += " " + value + " ";
         return;
     }
 
     // Troca o sinal da operação atual
     if (hasOperator() === true && displayLengthOf(RESULT) === 0) {
         deletesLastCharacterOf(OPERATION);
-        OPERATION.textContent += value;
+        OPERATION.textContent += " " + value + " ";
         return;
     }
 
@@ -149,7 +149,7 @@ function typeOperator(this: HTMLButtonElement) {
 
     OPERATION.textContent = _filterNumber(RESULT.textContent || "");
     RESULT.textContent = "";
-    OPERATION.textContent += value;
+    OPERATION.textContent += " " + value + " ";
 }
 
 // --------------------------------------------------
@@ -171,7 +171,7 @@ function typeEquals() {
     }
 
     //
-    OPERATION.textContent += _filterNumber(RESULT.textContent || "");
+    OPERATION.textContent += " " + _filterNumber(RESULT.textContent || "");
     RESULT.textContent = "";
 
     //

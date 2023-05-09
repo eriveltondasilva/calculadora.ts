@@ -81,12 +81,12 @@ function typeOperator() {
     if (hasEquals()) {
         OPERATION.textContent = ((_a = RESULT.textContent) === null || _a === void 0 ? void 0 : _a.slice(6).replace("-", "")) || "";
         RESULT.textContent = "";
-        OPERATION.textContent += value;
+        OPERATION.textContent += " " + value + " ";
         return;
     }
     if (hasOperator() === true && displayLengthOf(RESULT) === 0) {
         deletesLastCharacterOf(OPERATION);
-        OPERATION.textContent += value;
+        OPERATION.textContent += " " + value + " ";
         return;
     }
     if (hasOperator() === true) {
@@ -94,7 +94,7 @@ function typeOperator() {
     }
     OPERATION.textContent = _filterNumber(RESULT.textContent || "");
     RESULT.textContent = "";
-    OPERATION.textContent += value;
+    OPERATION.textContent += " " + value + " ";
 }
 EQUALS.addEventListener("click", typeEquals);
 function typeEquals() {
@@ -105,7 +105,7 @@ function typeEquals() {
     if (hasEquals()) {
         return;
     }
-    OPERATION.textContent += _filterNumber(RESULT.textContent || "");
+    OPERATION.textContent += " " + _filterNumber(RESULT.textContent || "");
     RESULT.textContent = "";
     let operation = OPERATION.textContent || "";
     let numbers = operation.replace(/[,]/g, ".").split(pattern);
