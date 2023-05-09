@@ -210,7 +210,7 @@ function operations(firstNumber: number, lastNumber: number) {
     switch (operator) {
         case "+":
             // Multiplica ambos os números por 10 e divide por 10 para evitar a imprecisão dos números decimais(0.2+0.1!=0.3).
-            return firstNumber * 10 + (lastNumber * 10) / 10;
+            return (firstNumber * 10 + lastNumber * 10) / 10;
         case "-":
             return firstNumber - lastNumber;
         case "×":

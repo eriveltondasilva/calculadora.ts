@@ -128,7 +128,7 @@ function operations(firstNumber, lastNumber) {
     const operator = String((_a = OPERATION.textContent) === null || _a === void 0 ? void 0 : _a.match(pattern));
     switch (operator) {
         case "+":
-            return firstNumber * 10 + (lastNumber * 10) / 10;
+            return (firstNumber * 10 + lastNumber * 10) / 10;
         case "-":
             return firstNumber - lastNumber;
         case "×":
